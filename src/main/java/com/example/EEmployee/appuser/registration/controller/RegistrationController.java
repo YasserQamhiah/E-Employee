@@ -1,8 +1,8 @@
-package com.example.EEmployee.appuser.controller;
+package com.example.EEmployee.appuser.registration.controller;
 
-import com.example.EEmployee.appuser.Registration.RegistrationRequest;
+import com.example.EEmployee.appuser.registration.collection.RegistrationRequest;
 import com.example.EEmployee.appuser.service.AppUserService;
-import com.example.EEmployee.appuser.service.RegistrationService;
+import com.example.EEmployee.appuser.registration.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

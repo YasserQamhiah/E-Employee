@@ -1,4 +1,4 @@
-package com.example.EEmployee.appuser.service;
+package com.example.EEmployee.appuser.registration.service;
 
 import org.springframework.stereotype.Service;
 

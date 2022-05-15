@@ -1,8 +1,9 @@
-package com.example.EEmployee.appuser.service;
+package com.example.EEmployee.appuser.registration.service;
 
-import com.example.EEmployee.appuser.Registration.RegistrationRequest;
+import com.example.EEmployee.appuser.registration.collection.RegistrationRequest;
 import com.example.EEmployee.appuser.collection.AppUser;
 import com.example.EEmployee.appuser.collection.AppUserRole;
+import com.example.EEmployee.appuser.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

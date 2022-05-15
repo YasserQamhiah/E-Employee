@@ -1,4 +1,4 @@
-package com.example.EEmployee.appuser.Registration;
+package com.example.EEmployee.appuser.registration.collection;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
