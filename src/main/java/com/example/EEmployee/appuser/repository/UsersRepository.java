@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface UsersRepository extends MongoRepository<AppUser,Long> {
+public interface UsersRepository extends MongoRepository<AppUser,String> {
     Optional<AppUser> findByEmail(String email);
 }

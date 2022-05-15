@@ -12,14 +12,13 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Data
-@NoArgsConstructor
+
 @Document(collection = "USERS_INFO")
+@Builder
 public class AppUser implements UserDetails {
-    @Transient
-    public static final String SEQUENCE_NAME = "users_info_sequence";
 
     @Id
-    private Long id;
+    private String id;
     @NonNull
     private String email;
     @NonNull
@@ -29,10 +28,8 @@ public class AppUser implements UserDetails {
     @NonNull
 
     private AppUserRole appUserRole;
-    @NonNull
-    private Boolean locked;
-    @NonNull
-    private Boolean enabled;
+    private boolean locked=false;
+    private boolean enabled=false;
 
 
 
