@@ -23,7 +23,7 @@ public class ConfirmationToken
     private LocalDateTime createdAt;
     @NonNull
     private LocalDateTime expiredAt;
-    private LocalDate confirmedAt;
+    private LocalDateTime confirmedAt;
 
     @NonNull
     private AppUser appUser;

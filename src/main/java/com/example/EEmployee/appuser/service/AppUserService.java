@@ -51,4 +51,11 @@ public class AppUserService implements UserDetailsService {
     public void clearApp(){
         usersRepository.deleteAll();
     }
+
+
+    public String enableUser(AppUser user){
+        user.setEnabled(true);
+        usersRepository.save(user);
+        return "DONE";
+    }
 }
