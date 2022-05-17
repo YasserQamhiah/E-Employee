@@ -24,11 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        http.csrf().  disable();
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/api/v1/registration")
                 .permitAll()
                 .antMatchers("/home")
                 .hasAuthority("USER")
-                .antMatchers("/api/v*/registration/**")
+                .antMatchers("/Employee")
                 .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()

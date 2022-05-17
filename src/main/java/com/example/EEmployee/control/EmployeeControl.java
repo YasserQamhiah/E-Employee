@@ -27,9 +27,17 @@ public class EmployeeControl {
         LOGGER.info("INSIDE OF GET EMPLOYEE BY ID");
         return employeeService.getEmployeeById(id);
     }
+    @GetMapping("/login")
+    public String login(){
+        return "DONE";
+    }
     @GetMapping("/Employee")
     public List<Employee> getEmployees(){
         return employeeService.getAllEmployees();
+    }
+    @PutMapping("/Employee/")
+    public Employee updateEmployee(@RequestParam(name = "id") String id ,@RequestBody Employee employee) throws Exception {
+        return employeeService.updateEmployee(id,employee);
     }
     @DeleteMapping("/Employee/private/v1")
     public void deleteAllEmployees(){

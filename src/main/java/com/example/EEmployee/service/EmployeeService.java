@@ -17,4 +17,6 @@ public interface EmployeeService {
     Employee deleteEmployee(String id) throws Exception;
 
     Employee findByEmail(String email);
+
+    Employee updateEmployee(String id,Employee employee) throws Exception;
 }

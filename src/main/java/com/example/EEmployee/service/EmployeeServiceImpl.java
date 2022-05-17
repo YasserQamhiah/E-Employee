@@ -67,7 +67,37 @@ public class EmployeeServiceImpl implements EmployeeService {
         Query query=new Query().addCriteria(Criteria.where("email").is(email));
         return  mongoTemplate.find(query,Employee.class).get(0);
     }
+        @Override
+    public Employee updateEmployee(String id,Employee employee) throws Exception {
+        Optional<Employee> temp=employeeRepository.findById(id);
+        if(!temp.isPresent()){
+            throw new Exception("There's NO Employee with that id");
+        }
+        employee=updateEmployeeValue(temp.get(),temp.get());
+        employee.setEmployeeId(id);
+        employeeRepository.save(employee);
+        return employee;
+    }
+    private Employee updateEmployeeValue(Employee old, Employee newEmployee){
 
+        if(newEmployee.getFname()!=null &&!old.getFname().equals(newEmployee.getFname()))
+            newEmployee.setFname(old.getFname());
+        if(newEmployee.getLname()!=null &&!old.getLname().equals(newEmployee.getLname()))
+            newEmployee.setLname(old.getLname());
+        if(newEmployee.getBirthDate()!=null && !old.getBirthDate().equals(newEmployee.getBirthDate()))
+            newEmployee.setBirthDate(old.getBirthDate());
+        if(newEmployee.getEmail()!=null &&!old.getEmail().equals(newEmployee.getEmail()))
+            newEmployee.setEmail(old.getEmail());
+        if(newEmployee.getPhone()!=null &&!old.getPhone().equals(newEmployee.getPhone()))
+            newEmployee.setPhone(old.getPhone());
+        if(newEmployee.getSalary()!=-1 &&old.getSalary()!= newEmployee.getSalary())
+            newEmployee.setSalary(old.getSalary());
+        if(newEmployee.getHireDate()!=null &&!old.getHireDate().equals(newEmployee.getHireDate()))
+            newEmployee.setHireDate(old.getHireDate());
+
+
+        return newEmployee;
+    }
 
 
 }
