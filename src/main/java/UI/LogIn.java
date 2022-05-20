@@ -1,23 +1,29 @@
-package com.example.EEmployee.UI;
+package UI;
+
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.UIManager;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import javax.swing.JCheckBox;
 
 public class LogIn {
-
 	private JFrame LOGIN;
 	private JTextField txtUserName;
 	private JPasswordField passwordField;
@@ -78,17 +84,20 @@ public class LogIn {
 		btnLogIn.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnLogIn.setBounds(323, 178, 89, 38);
 		btnLogIn.setBackground(new Color(192, 192, 192));
-		btnLogIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (txtUserName.getText().equals("user") && passwordField.getText().equals("123")) {
+		btnLogIn.addActionListener(e->{
+			try {
+				if(login(txtUserName.getText(),String.valueOf(passwordField.getPassword())))
+				{
 					MainMenu MM = new MainMenu();
 					MM.MainMenu.setVisible(true);
 					LOGIN.dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, " Wrong Username or Password ", "Error", 0);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, " The account name or password that you have entered is incorrect.\n ", "Error", 0);
 
 				}
-
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
 			}
 		});
 
@@ -108,4 +117,23 @@ public class LogIn {
 		chckShowPass.setBounds(191, 148, 140, 23);
 		LOGIN.getContentPane().add(chckShowPass);
 	}
+	public boolean login(String username, String password) throws IOException {
+		HttpGet request = new HttpGet("http://localhost:8080/login");
+		String auth = username + ":" + password;
+		byte[] encodedAuth = Base64.getEncoder().encode(
+				auth.getBytes(StandardCharsets.ISO_8859_1));
+		String authHeader = "Basic " + new String(encodedAuth);
+		request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+
+
+
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpResponse response = client.execute(request);
+		if (response.getStatusLine().getStatusCode()!=200){
+			return false;
+		}
+		return true;
+	}
+
 }

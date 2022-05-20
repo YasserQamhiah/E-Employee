@@ -1,4 +1,7 @@
-package com.example.EEmployee.UI;
+package UI;
+
+import UI.API.EmployeeAPI;
+import com.example.EEmployee.collection.Employee;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -24,6 +27,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 public class MainMenu {
 
@@ -41,7 +45,8 @@ public class MainMenu {
 	private JTextField txtBD;
 	private JTextField txtId;
 	TableRowSorter<DefaultTableModel> ts;
-
+	EmployeeAPI employeeAPI;
+	HashMap<String, Employee>map;
 	/**
 	 * Launch the application.
 	 */
@@ -358,6 +363,9 @@ public class MainMenu {
 		});
 
 	};
+
+
+
 	
 
 }
