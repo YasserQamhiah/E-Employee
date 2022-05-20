@@ -1,14 +1,18 @@
 package UI;
 
+import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.servlet.http.Cookie;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,13 +24,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JCheckBox;
 
 public class LogIn {
 	private JFrame LOGIN;
 	private JTextField txtUserName;
 	private JPasswordField passwordField;
+	String cookie;
 
 	/**
 	 * Launch the application.
@@ -88,15 +96,16 @@ public class LogIn {
 			try {
 				if(login(txtUserName.getText(),String.valueOf(passwordField.getPassword())))
 				{
-					MainMenu MM = new MainMenu();
+					MainMenu MM = new MainMenu(cookie);
 					MM.MainMenu.setVisible(true);
 					LOGIN.dispose();
+
 				}
 				else {
 					JOptionPane.showMessageDialog(null, " The account name or password that you have entered is incorrect.\n ", "Error", 0);
 
 				}
-			} catch (IOException ioException) {
+			} catch (Exception ioException) {
 				ioException.printStackTrace();
 			}
 		});
@@ -133,7 +142,14 @@ public class LogIn {
 		if (response.getStatusLine().getStatusCode()!=200){
 			return false;
 		}
+		Header[] headers = response.getHeaders("Set-Cookie");
+		Pattern pattern = Pattern.compile("=(.*?);");
+		Matcher matcher = pattern.matcher(headers[0].getValue().toString());
+		if (matcher.find()) {
+			cookie=matcher.group(1);
+		}
 		return true;
 	}
+
 
 }

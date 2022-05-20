@@ -6,7 +6,7 @@ import com.example.EEmployee.collection.Employee;
 import java.util.List;
 
 public interface EmployeeService {
-    public void addEmployee(Employee employee);
+    public Employee addEmployee(Employee employee);
 
     Employee getEmployeeById(String id) throws Exception;
 

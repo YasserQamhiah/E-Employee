@@ -25,10 +25,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
     @Override
-    public void addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) {
         employee.setEmployeeId(sequenceGeneratorService.generateSequence(employee.SEQUENCE_NAME));
 
         employeeRepository.save(employee);
+        return employee;
 
     }
 

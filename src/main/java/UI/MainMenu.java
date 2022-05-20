@@ -2,8 +2,10 @@ package UI;
 
 import UI.API.EmployeeAPI;
 import com.example.EEmployee.collection.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.EventQueue;
+import javax.servlet.http.HttpSession;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,6 +30,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class MainMenu {
 
@@ -43,18 +47,18 @@ public class MainMenu {
 	private JTextField txtEmail;
 	private JTextField txtPhone;
 	private JTextField txtBD;
-	private JTextField txtId;
 	TableRowSorter<DefaultTableModel> ts;
+	@Autowired
 	EmployeeAPI employeeAPI;
 	HashMap<String, Employee>map;
-	/**
-	 * Launch the application.
-	 */
+	String cookie;
+
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainMenu window = new MainMenu();
+					MainMenu window = new MainMenu("");
 					window.MainMenu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,8 +74,11 @@ public class MainMenu {
 	/**
 	 * Create the application.
 	 */
-	public MainMenu() {
+	public MainMenu(String cookie) throws Exception {
+		this.cookie=cookie;
+
 		initialize();
+		loadEmployeeInformation();
 
 	}
 
@@ -79,6 +86,8 @@ public class MainMenu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		map=new HashMap<>();
+		employeeAPI=new EmployeeAPI();
 		MainMenu = new JFrame("Main Menu");
 		MainMenu.setBounds(100, 100, 1112, 669);
 		MainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,9 +110,6 @@ public class MainMenu {
 		lblSearch.setBounds(265, 40, 49, 14);
 		panel.add(lblSearch);
 
-		JLabel lblID = new JLabel("ID");
-		lblID.setBounds(10, 86, 49, 14);
-		panel.add(lblID);
 
 		JLabel lblName = new JLabel("Name");
 		lblName.setBounds(10, 125, 49, 14);
@@ -136,10 +142,6 @@ public class MainMenu {
 		JLabel lblBD = new JLabel("B-Date");
 		lblBD.setBounds(10, 418, 49, 14);
 		panel.add(lblBD);
-		txtId = new JTextField();
-		txtId.setColumns(10);
-		txtId.setBounds(78, 83, 167, 20);
-		panel.add(txtId);
 
 		txtName = new JTextField();
 		txtName.setBounds(78, 122, 167, 20);
@@ -199,7 +201,7 @@ public class MainMenu {
 		btnAdd.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				if (txtId.getText().equals("") || txtName.getText().equals("") || txtAddress.getText().equals("")
+				if ( txtName.getText().equals("") || txtAddress.getText().equals("")
 						|| txtRole.getText().equals("") || txtJob.getText().equals("") || txtSalary.getText().equals("")
 						|| txtEmail.getText().equals("") || txtPhone.getText().equals("")
 						|| txtBD.getText().equals("")) {
@@ -208,23 +210,8 @@ public class MainMenu {
 				
 
 				else {
-					Object data[] = { txtId.getText(), txtName.getText(), txtAddress.getText(), txtRole.getText(),
-							txtJob.getText(), txtSalary.getText(), txtEmail.getText(), txtPhone.getText(),
-							txtBD.getText() };
 
-				
-					model = (DefaultTableModel) table.getModel();
-					model.addRow(data);
-					txtId.setText("");
-					txtName.setText("");
-					txtAddress.setText("");
-					txtRole.setText("");
-					txtJob.setText("");
-					txtSalary.setText("");
-					txtEmail.setText("");
-					txtPhone.setText("");
-					txtBD.setText("");
-
+					clear();
 				}
 			}
 
@@ -241,7 +228,6 @@ public class MainMenu {
 				}
 				else {
 				int SelectedRowIndex = table.getSelectedRow();
-				model.setValueAt(txtId.getText(), SelectedRowIndex, 0);
 				model.setValueAt(txtName.getText(), SelectedRowIndex, 1);
 				model.setValueAt(txtAddress.getText(), SelectedRowIndex, 2);
 				model.setValueAt(txtRole.getText(), SelectedRowIndex, 3);
@@ -250,15 +236,7 @@ public class MainMenu {
 				model.setValueAt(txtEmail.getText(), SelectedRowIndex, 6);
 				model.setValueAt(txtPhone.getText(), SelectedRowIndex, 7);
 				model.setValueAt(txtBD.getText(), SelectedRowIndex, 8);
-				txtId.setText("");
-				txtName.setText("");
-				txtAddress.setText("");
-				txtRole.setText("");
-				txtJob.setText("");
-				txtSalary.setText("");
-				txtEmail.setText("");
-				txtPhone.setText("");
-				txtBD.setText("");
+					clear();
 				}
 				
 			}
@@ -331,7 +309,6 @@ public class MainMenu {
 			public void mouseClicked(MouseEvent e) {
 				model = (DefaultTableModel) table.getModel();
 				int SelectedRowIndex=table.getSelectedRow();
-				txtId.setText(model.getValueAt(SelectedRowIndex, 0).toString());
 				txtName.setText(model.getValueAt(SelectedRowIndex, 1).toString());
 				txtAddress.setText(model.getValueAt(SelectedRowIndex, 2).toString());
 				txtRole.setText(model.getValueAt(SelectedRowIndex, 3).toString());
@@ -347,8 +324,8 @@ public class MainMenu {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Name", "Address", "Role", "Job",
-				"Salary", "Email", "Phone",  "B-Date" }) {
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Name", "Role", "Job",
+				"Salary", "Email", "Phone","Hire Date",  "B-Date" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -362,10 +339,52 @@ public class MainMenu {
 
 		});
 
+
 	};
 
 
 
-	
+	private void loadEmployeeInformation() throws Exception {
+		System.out.println("cookie = " + cookie);
+		List<Employee> list= employeeAPI.getAllEmployee(cookie);
+		if(Objects.isNull(list)){
+			return;
+		}
+		else{
+			list.forEach(e->{
+				System.out.println("e = " + e);
+				map.put(e.getEmployeeId(),e);
+				addRow(e);
+
+			});
+
+		}
+	}
+	private void clear(){
+		txtName.setText("");
+		txtAddress.setText("");
+		txtRole.setText("");
+		txtJob.setText("");
+		txtSalary.setText("");
+		txtEmail.setText("");
+		txtPhone.setText("");
+		txtBD.setText("");
+
+	}
+	private void addRow(Employee employee){
+
+		model = (DefaultTableModel) table.getModel();
+		model.addRow(extractData(employee));
+
+	}
+	public Object[] extractData(Employee employee){
+		Object[]data={employee.getEmployeeId()
+				,employee.getFname()+" "+employee.getLname(),
+				employee.getRoll(),employee.getJob(),employee.getSalary(),employee.getEmail(),employee.getHireDate(),employee.getBirthDate()};
+
+
+		return data;
+
+	}
 
 }

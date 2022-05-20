@@ -31,7 +31,8 @@ public class Employee {
     private String email;
     private int salary;
     private String phone;
-
+    private String roll;
+    private String job;
     private String birthDate;
     private String hireDate;
 }

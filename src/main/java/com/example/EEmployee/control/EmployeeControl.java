@@ -18,9 +18,9 @@ public class EmployeeControl {
     private final Logger LOGGER= LoggerFactory.getLogger(EmployeeControl.class);
 
     @PostMapping("/Employee")
-    public void saveEmployee(@RequestBody Employee employee){
+    public Employee saveEmployee(@RequestBody Employee employee){
         LOGGER.info("Inside Of POST Employee");
-        employeeService.addEmployee(employee);
+        return employeeService.addEmployee(employee);
     }
     @GetMapping("/Employee/{id}")
     public Employee getEmployeeById(@PathVariable(name = "id") String id) throws Exception {
