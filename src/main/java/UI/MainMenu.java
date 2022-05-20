@@ -5,7 +5,6 @@ import com.example.EEmployee.collection.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.EventQueue;
-import javax.servlet.http.HttpSession;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,8 +38,9 @@ public class MainMenu {
 	private JTable table;
 	private JTextField txtSearch;
 	static DefaultTableModel model;
-	private JTextField txtName;
-	private JTextField txtAddress;
+	private JTextField txtfirstName;
+	private JTextField txtLastName;
+	private JTextField txtHireDate;
 	private JTextField txtRole;
 	private JTextField txtJob;
 	private JTextField txtSalary;
@@ -111,20 +111,25 @@ public class MainMenu {
 		panel.add(lblSearch);
 
 
-		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(10, 125, 49, 14);
-		panel.add(lblName);
+		JLabel lblfirstName = new JLabel("First Name");
+		lblfirstName.setBounds(10, 83, 49, 14);
+		panel.add(lblfirstName);
+
+
+		JLabel lblLastName = new JLabel("Last Name");
+		lblLastName.setBounds(10, 125, 49, 14);
+		panel.add(lblLastName);
 
 		JLabel lblRole = new JLabel("Role");
 		lblRole.setBounds(10, 203, 49, 14);
 		panel.add(lblRole);
 
-		JLabel lblAddress = new JLabel("Address");
-		lblAddress.setBounds(10, 162, 49, 14);
-		panel.add(lblAddress);
+		JLabel hire_date = new JLabel("Hire Date");
 
+		hire_date.setBounds(10, 379, 49, 14);
+		panel.add(hire_date);
 		JLabel lblPhone = new JLabel("Phone");
-		lblPhone.setBounds(10, 379, 49, 14);
+		lblPhone.setBounds(10, 162, 49, 14);
 		panel.add(lblPhone);
 
 		JLabel lblJob = new JLabel("Job");
@@ -143,15 +148,21 @@ public class MainMenu {
 		lblBD.setBounds(10, 418, 49, 14);
 		panel.add(lblBD);
 
-		txtName = new JTextField();
-		txtName.setBounds(78, 122, 167, 20);
-		panel.add(txtName);
-		txtName.setColumns(10);
 
-		txtAddress = new JTextField();
-		txtAddress.setColumns(10);
-		txtAddress.setBounds(78, 159, 167, 20);
-		panel.add(txtAddress);
+		txtfirstName = new JTextField();
+		txtfirstName.setBounds(78, 83, 167, 20);
+		panel.add(txtfirstName);
+		txtfirstName.setColumns(10);
+		txtLastName = new JTextField();
+		txtLastName.setBounds(78, 122, 167, 20);
+		panel.add(txtLastName);
+		txtLastName.setColumns(10);
+
+
+		txtHireDate = new JTextField();
+		txtHireDate.setColumns(10);
+		txtHireDate.setBounds(78, 376, 167, 20);
+		panel.add(txtHireDate);
 
 		txtRole = new JTextField();
 		txtRole.setColumns(10);
@@ -175,7 +186,8 @@ public class MainMenu {
 
 		txtPhone = new JTextField();
 		txtPhone.setColumns(10);
-		txtPhone.setBounds(78, 376, 167, 20);
+		/* 78, 159, 167, 20*/
+		txtPhone.setBounds(78, 159, 167, 20);
 		panel.add(txtPhone);
 
 		txtBD = new JTextField();
@@ -201,7 +213,7 @@ public class MainMenu {
 		btnAdd.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				if ( txtName.getText().equals("") || txtAddress.getText().equals("")
+				if ( txtfirstName.getText().equals("") ||  txtLastName.getText().equals("")|| txtHireDate.getText().equals("")
 						|| txtRole.getText().equals("") || txtJob.getText().equals("") || txtSalary.getText().equals("")
 						|| txtEmail.getText().equals("") || txtPhone.getText().equals("")
 						|| txtBD.getText().equals("")) {
@@ -210,7 +222,6 @@ public class MainMenu {
 				
 
 				else {
-
 					clear();
 				}
 			}
@@ -228,14 +239,17 @@ public class MainMenu {
 				}
 				else {
 				int SelectedRowIndex = table.getSelectedRow();
-				model.setValueAt(txtName.getText(), SelectedRowIndex, 1);
-				model.setValueAt(txtAddress.getText(), SelectedRowIndex, 2);
-				model.setValueAt(txtRole.getText(), SelectedRowIndex, 3);
-				model.setValueAt(txtJob.getText(), SelectedRowIndex, 4);
-				model.setValueAt(txtSalary.getText(), SelectedRowIndex, 5);
-				model.setValueAt(txtEmail.getText(), SelectedRowIndex, 6);
-				model.setValueAt(txtPhone.getText(), SelectedRowIndex, 7);
-				model.setValueAt(txtBD.getText(), SelectedRowIndex, 8);
+				model.setValueAt(txtfirstName.getText(), SelectedRowIndex, 1);
+				model.setValueAt(txtLastName.getText(), SelectedRowIndex, 2);
+					model.setValueAt(txtPhone.getText(), SelectedRowIndex, 3);
+
+				model.setValueAt(txtRole.getText(), SelectedRowIndex, 4);
+				model.setValueAt(txtJob.getText(), SelectedRowIndex, 5);
+				model.setValueAt(txtSalary.getText(), SelectedRowIndex, 6);
+				model.setValueAt(txtEmail.getText(), SelectedRowIndex, 7);
+					model.setValueAt(txtHireDate.getText(), SelectedRowIndex, 8);
+
+					model.setValueAt(txtBD.getText(), SelectedRowIndex, 10);
 					clear();
 				}
 				
@@ -309,14 +323,15 @@ public class MainMenu {
 			public void mouseClicked(MouseEvent e) {
 				model = (DefaultTableModel) table.getModel();
 				int SelectedRowIndex=table.getSelectedRow();
-				txtName.setText(model.getValueAt(SelectedRowIndex, 1).toString());
-				txtAddress.setText(model.getValueAt(SelectedRowIndex, 2).toString());
+				txtfirstName.setText(model.getValueAt(SelectedRowIndex, 1).toString());
+				txtLastName.setText(model.getValueAt(SelectedRowIndex, 2).toString());
 				txtRole.setText(model.getValueAt(SelectedRowIndex, 3).toString());
 				txtJob.setText(model.getValueAt(SelectedRowIndex, 4).toString());
 				txtSalary.setText(model.getValueAt(SelectedRowIndex, 5).toString());
 				txtEmail.setText(model.getValueAt(SelectedRowIndex, 6).toString());
 				txtPhone.setText(model.getValueAt(SelectedRowIndex, 7).toString());
-				txtBD.setText(model.getValueAt(SelectedRowIndex, 8).toString());
+				txtHireDate.setText(model.getValueAt(SelectedRowIndex, 8).toString());
+				txtBD.setText(model.getValueAt(SelectedRowIndex, 9).toString());
 			}
 		});
 
@@ -324,14 +339,14 @@ public class MainMenu {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Name", "Role", "Job",
-				"Salary", "Email", "Phone","Hire Date",  "B-Date" }) {
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "First Name","Last Name","Phone", "Role", "Job",
+				"Salary", "Email", "Hire Date",  "B-Date" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 
 			Class[] columnTypes = new Class[] { Object.class, Object.class, Object.class, Object.class, Object.class,
-					Object.class, Object.class, Object.class, Object.class};
+					Object.class, Object.class, Object.class, Object.class,Object.class};
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -361,8 +376,9 @@ public class MainMenu {
 		}
 	}
 	private void clear(){
-		txtName.setText("");
-		txtAddress.setText("");
+		txtfirstName.setText("");
+		txtLastName.setText("");
+		txtHireDate.setText("");
 		txtRole.setText("");
 		txtJob.setText("");
 		txtSalary.setText("");
@@ -379,7 +395,7 @@ public class MainMenu {
 	}
 	public Object[] extractData(Employee employee){
 		Object[]data={employee.getEmployeeId()
-				,employee.getFname()+" "+employee.getLname(),
+				,employee.getFname(),employee.getLname(),employee.getPhone(),
 				employee.getRoll(),employee.getJob(),employee.getSalary(),employee.getEmail(),employee.getHireDate(),employee.getBirthDate()};
 
 

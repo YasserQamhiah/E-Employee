@@ -38,10 +38,11 @@ public class EmployeeAPI implements API {
         });
         return list;
     }
-    public Employee POSTEmployee(Employee employee) throws IOException {
+    public Employee POSTEmployee(Employee employee,String cookie) throws IOException {
         HttpPost request=new HttpPost(
                 "http://localhost:8080/Employee"
         );
+        request.setHeader("Cookie","JSESSIONID="+cookie);
 
         ObjectMapper mapper=new ObjectMapper();
         StringEntity json=new StringEntity(mapper.writeValueAsString(employee), ContentType.APPLICATION_JSON);

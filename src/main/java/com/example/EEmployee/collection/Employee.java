@@ -17,6 +17,7 @@ import java.util.Date;
 @Document(collection = "EmployeeCollection")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Employee {
     @Transient
     public static final String SEQUENCE_NAME = "users_sequence";
