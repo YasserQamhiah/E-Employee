@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Data
-
 @Document(collection = "USERS_INFO")
 @Builder
 public class AppUser implements UserDetails {

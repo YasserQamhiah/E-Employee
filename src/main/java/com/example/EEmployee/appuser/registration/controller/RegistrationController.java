@@ -15,7 +15,7 @@ public class RegistrationController {
 @Autowired
 private AppUserService appUserService;
     @PostMapping
-    public String register(@RequestBody RegistrationRequest request){
+        public String register(@RequestBody RegistrationRequest request){
         return registerService.register(request);
     }
 
