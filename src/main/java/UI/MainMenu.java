@@ -2,8 +2,9 @@ package UI;
 
 import UI.API.EmployeeAPI;
 import com.example.EEmployee.collection.Employee;
-import com.toedter.calendar.JCalendar;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.EventQueue;
@@ -35,7 +36,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MainMenu {
-
+	private final Logger LOGGER= LoggerFactory.getLogger(MainMenu.class);
 	JFrame MainMenu;
 	private JTable table;
 	private JTextField txtSearch;
@@ -78,8 +79,8 @@ public class MainMenu {
 	 */
 	public MainMenu(String cookie) throws Exception {
 		this.cookie=cookie;
-
-		initialize();
+		LOGGER.info("Hello From Constructor");
+			initialize();
 		loadEmployeeInformation();
 
 	}
@@ -216,6 +217,8 @@ public class MainMenu {
 
 			@SneakyThrows
 			public void actionPerformed(ActionEvent arg0) {
+				LOGGER.info("Inside of Add Listener");
+
 				if ( txtfirstName.getText().equals("") ||  txtLastName.getText().equals("")|| txtHireDate.getText().equals("")
 						|| txtRole.getText().equals("") || txtJob.getText().equals("") || txtSalary.getText().equals("")
 						|| txtEmail.getText().equals("") || txtPhone.getText().equals("")
@@ -227,18 +230,7 @@ public class MainMenu {
 				else {
 					if(!check())
 						return;
-					Employee temp=Employee.builder()
-							.fname(txtfirstName.getText())
-							.lname(txtLastName.getText())
-							.job(txtJob.getText())
-							.roll(txtRole.getText())
-							.job(txtJob.getText())
-							.email(txtEmail.getText())
-							.birthDate(txtBD.getText())
-							.phone(txtPhone.getText())
-							.hireDate(txtHireDate.getText())
-							.salary(Integer.parseInt(txtSalary.getText()))
-							.build();
+					Employee temp=buildEmployee();
 					temp=employeeAPI.POSTEmployee(temp,cookie);
 					if(Objects.isNull(temp)){
 						JOptionPane.showMessageDialog(null, "Something Went Wrong Try Again Later !",
@@ -258,24 +250,31 @@ public class MainMenu {
 		buttons.add(btnUpdate);
 		btnUpdate.setBackground(new Color(192, 192, 192));
 		btnUpdate.addActionListener(new ActionListener() {
+
+			@SneakyThrows
 			public void actionPerformed(ActionEvent e) {
+				LOGGER.info("Inside of Update Listener");
+
 				if (table.getRowCount() == 0) {
 					JOptionPane.showMessageDialog(null, "Table is Empty.", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
 
-				int SelectedRowIndex = table.getSelectedRow();
-				model.setValueAt(txtfirstName.getText(), SelectedRowIndex, 1);
-				model.setValueAt(txtLastName.getText(), SelectedRowIndex, 2);
-					model.setValueAt(txtPhone.getText(), SelectedRowIndex, 3);
+					int selectedRowIndex=table.getSelectedRow();
+					Employee temp=buildEmployee();
+					String id=table.getValueAt(selectedRowIndex,0).toString();
+					temp.setEmployeeId(id);
+					temp=employeeAPI.updateEmployee(temp,cookie,id);
+					if(Objects.isNull(temp)){
+						JOptionPane.showMessageDialog(null, "Something Went Wrong Try Again Later !",
+								"ERROR", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					System.out.println(temp);
+					map.replace(id,temp);
+					System.out.println(map.get(id));
+					update();
 
-				model.setValueAt(txtRole.getText(), SelectedRowIndex, 4);
-				model.setValueAt(txtJob.getText(), SelectedRowIndex, 5);
-				model.setValueAt(txtSalary.getText(), SelectedRowIndex, 6);
-				model.setValueAt(txtEmail.getText(), SelectedRowIndex, 7);
-					model.setValueAt(txtHireDate.getText(), SelectedRowIndex, 8);
-
-					model.setValueAt(txtBD.getText(), SelectedRowIndex, 10);
 					clear();
 				}
 				
@@ -287,7 +286,10 @@ public class MainMenu {
 		buttons.add(btnDelete);
 		btnDelete.setBackground(new Color(192, 192, 192));
 		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				LOGGER.info("Inside of Delete Listener");
+
 				if (table.getSelectedRowCount() == 1) {
 					model.removeRow(table.getSelectedRow());
 
@@ -351,11 +353,11 @@ public class MainMenu {
 				int SelectedRowIndex=table.getSelectedRow();
 				txtfirstName.setText(model.getValueAt(SelectedRowIndex, 1).toString());
 				txtLastName.setText(model.getValueAt(SelectedRowIndex, 2).toString());
-				txtRole.setText(model.getValueAt(SelectedRowIndex, 3).toString());
-				txtJob.setText(model.getValueAt(SelectedRowIndex, 4).toString());
-				txtSalary.setText(model.getValueAt(SelectedRowIndex, 5).toString());
-				txtEmail.setText(model.getValueAt(SelectedRowIndex, 6).toString());
-				txtPhone.setText(model.getValueAt(SelectedRowIndex, 7).toString());
+				txtRole.setText(model.getValueAt(SelectedRowIndex, 4).toString());
+				txtJob.setText(model.getValueAt(SelectedRowIndex, 5).toString());
+				txtSalary.setText(model.getValueAt(SelectedRowIndex, 6).toString());
+				txtEmail.setText(model.getValueAt(SelectedRowIndex, 7).toString());
+				txtPhone.setText(model.getValueAt(SelectedRowIndex, 3).toString());
 				txtHireDate.setText(model.getValueAt(SelectedRowIndex, 8).toString());
 				txtBD.setText(model.getValueAt(SelectedRowIndex, 9).toString());
 			}
@@ -381,11 +383,46 @@ public class MainMenu {
 		});
 
 
-	};
+	}
+
+	private void update() {
+		LOGGER.info("Inside of update function");
+
+		int SelectedRowIndex = table.getSelectedRow();
+		model.setValueAt(txtfirstName.getText(), SelectedRowIndex, 1);
+		model.setValueAt(txtLastName.getText(), SelectedRowIndex, 2);
+		model.setValueAt(txtPhone.getText(), SelectedRowIndex, 3);
+		model.setValueAt(txtRole.getText(), SelectedRowIndex, 4);
+		model.setValueAt(txtJob.getText(), SelectedRowIndex, 5);
+		model.setValueAt(txtSalary.getText(), SelectedRowIndex, 6);
+		model.setValueAt(txtEmail.getText(), SelectedRowIndex, 7);
+		model.setValueAt(txtHireDate.getText(), SelectedRowIndex, 8);
+
+		model.setValueAt(txtBD.getText(), SelectedRowIndex, 9);
+	}
+
+	private Employee buildEmployee() {
+		return Employee.builder()
+				.fname(txtfirstName.getText())
+				.lname(txtLastName.getText())
+				.job(txtJob.getText())
+				.roll(txtRole.getText())
+				.job(txtJob.getText())
+				.email(txtEmail.getText())
+				.birthDate(txtBD.getText())
+				.phone(txtPhone.getText())
+				.hireDate(txtHireDate.getText())
+				.salary(Integer.parseInt(txtSalary.getText()))
+				.build();
+	}
+
+
 
 
 
 	private void loadEmployeeInformation() throws Exception {
+		LOGGER.info("Inside of loadEmployeeInformation");
+
 		System.out.println("cookie = " + cookie);
 		List<Employee> list= employeeAPI.getAllEmployee(cookie);
 		if(Objects.isNull(list)){
@@ -410,9 +447,11 @@ public class MainMenu {
 		txtEmail.setText("");
 		txtPhone.setText("");
 		txtBD.setText("");
+		LOGGER.info("Inside of Clear");
 
 	}
 	private void addRow(Employee employee){
+		LOGGER.info("Inside of addRow");
 
 		model = (DefaultTableModel) table.getModel();
 		model.addRow(extractData(employee));
@@ -420,6 +459,7 @@ public class MainMenu {
 	}
 	public boolean check()
 	{
+		LOGGER.info("Inside of check");
 
 		if (txtfirstName.getText().matches("[\\w]+") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
@@ -464,6 +504,8 @@ public class MainMenu {
 
 
 	public Object[] extractData(Employee employee){
+		LOGGER.info("Inside of extractData function");
+
 		Object[]data={employee.getEmployeeId()
 				,employee.getFname(),employee.getLname(),employee.getPhone(),
 				employee.getRoll(),employee.getJob(),employee.getSalary(),employee.getEmail(),employee.getHireDate(),employee.getBirthDate()};

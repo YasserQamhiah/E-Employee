@@ -74,28 +74,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(!temp.isPresent()){
             throw new Exception("There's NO Employee with that id");
         }
-        employee=updateEmployeeValue(temp.get(),temp.get());
+        employee=updateEmployeeValue(temp.get(),employee);
         employee.setEmployeeId(id);
         employeeRepository.save(employee);
         return employee;
     }
     private Employee updateEmployeeValue(Employee old, Employee newEmployee){
 
-        if(newEmployee.getFname()!=null &&!old.getFname().equals(newEmployee.getFname()))
+        if(newEmployee.getFname()==null)
             newEmployee.setFname(old.getFname());
-        if(newEmployee.getLname()!=null &&!old.getLname().equals(newEmployee.getLname()))
+        if(newEmployee.getLname()==null)
             newEmployee.setLname(old.getLname());
-        if(newEmployee.getBirthDate()!=null && !old.getBirthDate().equals(newEmployee.getBirthDate()))
+        if(newEmployee.getBirthDate()==null)
             newEmployee.setBirthDate(old.getBirthDate());
-        if(newEmployee.getEmail()!=null &&!old.getEmail().equals(newEmployee.getEmail()))
+        if(newEmployee.getEmail()==null)
             newEmployee.setEmail(old.getEmail());
-        if(newEmployee.getPhone()!=null &&!old.getPhone().equals(newEmployee.getPhone()))
+        if(newEmployee.getPhone()==null)
             newEmployee.setPhone(old.getPhone());
-        if(newEmployee.getSalary()!=-1 &&old.getSalary()!= newEmployee.getSalary())
+        if(newEmployee.getSalary()==1)
             newEmployee.setSalary(old.getSalary());
-        if(newEmployee.getHireDate()!=null &&!old.getHireDate().equals(newEmployee.getHireDate()))
+        if(newEmployee.getHireDate()==null)
             newEmployee.setHireDate(old.getHireDate());
-
+        if(newEmployee.getRoll()==null)
+            newEmployee.setRoll(old.getRoll());
+        if(newEmployee.getJob()==null)
+            newEmployee.setJob(old.getJob());
 
         return newEmployee;
     }
