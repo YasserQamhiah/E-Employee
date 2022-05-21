@@ -2,6 +2,8 @@ package UI;
 
 import UI.API.EmployeeAPI;
 import com.example.EEmployee.collection.Employee;
+import com.toedter.calendar.JCalendar;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.EventQueue;
@@ -86,6 +88,7 @@ public class MainMenu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
 		map=new HashMap<>();
 		employeeAPI=new EmployeeAPI();
 		MainMenu = new JFrame("Main Menu");
@@ -112,12 +115,12 @@ public class MainMenu {
 
 
 		JLabel lblfirstName = new JLabel("First Name");
-		lblfirstName.setBounds(10, 83, 49, 14);
+		lblfirstName.setBounds(10, 83, 68, 14);
 		panel.add(lblfirstName);
 
 
 		JLabel lblLastName = new JLabel("Last Name");
-		lblLastName.setBounds(10, 125, 49, 14);
+		lblLastName.setBounds(10, 125, 68, 14);
 		panel.add(lblLastName);
 
 		JLabel lblRole = new JLabel("Role");
@@ -126,7 +129,7 @@ public class MainMenu {
 
 		JLabel hire_date = new JLabel("Hire Date");
 
-		hire_date.setBounds(10, 379, 49, 14);
+		hire_date.setBounds(10, 379, 58, 14);
 		panel.add(hire_date);
 		JLabel lblPhone = new JLabel("Phone");
 		lblPhone.setBounds(10, 162, 49, 14);
@@ -205,13 +208,13 @@ public class MainMenu {
 		scrollPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setBounds(265, 68, 767, 466);
 		panel.add(scrollPane);
-
 		JButton btnAdd = new JButton("ADD");
 		btnAdd.setBounds(59, 11, 168, 37);
 		buttons.add(btnAdd);
 		btnAdd.setBackground(new Color(192, 192, 192));
 		btnAdd.addActionListener(new ActionListener() {
 
+			@SneakyThrows
 			public void actionPerformed(ActionEvent arg0) {
 				if ( txtfirstName.getText().equals("") ||  txtLastName.getText().equals("")|| txtHireDate.getText().equals("")
 						|| txtRole.getText().equals("") || txtJob.getText().equals("") || txtSalary.getText().equals("")
@@ -222,6 +225,27 @@ public class MainMenu {
 				
 
 				else {
+					if(!check())
+						return;
+					Employee temp=Employee.builder()
+							.fname(txtfirstName.getText())
+							.lname(txtLastName.getText())
+							.job(txtJob.getText())
+							.roll(txtRole.getText())
+							.job(txtJob.getText())
+							.email(txtEmail.getText())
+							.birthDate(txtBD.getText())
+							.hireDate(txtHireDate.getText())
+							.salary(Integer.parseInt(txtSalary.getText()))
+							.build();
+					temp=employeeAPI.POSTEmployee(temp,cookie);
+					if(Objects.isNull(temp)){
+						JOptionPane.showMessageDialog(null, "Something Went Wrong Try Again Later !",
+								"ERROR", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					map.put(temp.getEmployeeId(),temp);
+					addRow(temp);
 					clear();
 				}
 			}
@@ -238,6 +262,7 @@ public class MainMenu {
 					JOptionPane.showMessageDialog(null, "Table is Empty.", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
+
 				int SelectedRowIndex = table.getSelectedRow();
 				model.setValueAt(txtfirstName.getText(), SelectedRowIndex, 1);
 				model.setValueAt(txtLastName.getText(), SelectedRowIndex, 2);
@@ -367,7 +392,6 @@ public class MainMenu {
 		}
 		else{
 			list.forEach(e->{
-				System.out.println("e = " + e);
 				map.put(e.getEmployeeId(),e);
 				addRow(e);
 
@@ -393,6 +417,51 @@ public class MainMenu {
 		model.addRow(extractData(employee));
 
 	}
+	public boolean check()
+	{
+
+		if (txtfirstName.getText().equals("[\\w]+") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else if (txtLastName.getText().equals("[\\w]+") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+
+		else if (txtHireDate.getText().equals("[\\d]{2}[/]{1}[\\d]{2}[/][\\d]{4}|[\\d]{2}[.]{1}[\\d]{2}[.][\\d]{4}") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the Address with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else if (txtRole.getText().equals("[\\w]+") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the Role with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else if (txtJob.getText().equals("[\\w]+") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the Job with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else if (txtSalary.getText().equals("[\\\\d]{5}") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the Salary with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else if (txtEmail.getText().equals("[a-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the Email with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+
+		else if (txtPhone.getText().equals("[+][\\d]{1,3}[-][\\d]{3}[\\s][\\d]{3}[\\s][\\d]{4}") == false) {
+			JOptionPane.showMessageDialog(null, "please, write the Phone with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else if (txtBD.getText().equals("[\\d]{2}[/]{1}[\\d]{2}[/][\\d]{4}|[\\d]{2}[.]{1}[\\d]{2}[.][\\d]{4}") == false){
+			JOptionPane.showMessageDialog(null, "please, write the Birth date with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+
 	public Object[] extractData(Employee employee){
 		Object[]data={employee.getEmployeeId()
 				,employee.getFname(),employee.getLname(),employee.getPhone(),
