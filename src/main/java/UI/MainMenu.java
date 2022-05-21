@@ -235,6 +235,7 @@ public class MainMenu {
 							.job(txtJob.getText())
 							.email(txtEmail.getText())
 							.birthDate(txtBD.getText())
+							.phone(txtPhone.getText())
 							.hireDate(txtHireDate.getText())
 							.salary(Integer.parseInt(txtSalary.getText()))
 							.build();
@@ -420,41 +421,41 @@ public class MainMenu {
 	public boolean check()
 	{
 
-		if (txtfirstName.getText().equals("[\\w]+") == false) {
+		if (txtfirstName.getText().matches("[\\w]+") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtLastName.getText().equals("[\\w]+") == false) {
+		else if (txtLastName.getText().matches("[\\w]+") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		else if (txtHireDate.getText().equals("[\\d]{2}[/]{1}[\\d]{2}[/][\\d]{4}|[\\d]{2}[.]{1}[\\d]{2}[.][\\d]{4}") == false) {
+		else if (txtHireDate.getText().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the Address with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtRole.getText().equals("[\\w]+") == false) {
+		else if (txtRole.getText().matches("[\\w]+") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the Role with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtJob.getText().equals("[\\w]+") == false) {
+		else if (txtJob.getText().matches("[\\w]+") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the Job with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtSalary.getText().equals("[\\\\d]{5}") == false) {
+		else if (txtSalary.getText().matches("[\\d]{1,7}") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the Salary with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtEmail.getText().equals("[a-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$") == false) {
+		else if (txtEmail.getText().matches("[a-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the Email with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		else if (txtPhone.getText().equals("[+][\\d]{1,3}[-][\\d]{3}[\\s][\\d]{3}[\\s][\\d]{4}") == false) {
+		else if (txtPhone.getText().matches("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$") == false) {
 			JOptionPane.showMessageDialog(null, "please, write the Phone with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtBD.getText().equals("[\\d]{2}[/]{1}[\\d]{2}[/][\\d]{4}|[\\d]{2}[.]{1}[\\d]{2}[.][\\d]{4}") == false){
+		else if (txtBD.getText().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$") == false){
 			JOptionPane.showMessageDialog(null, "please, write the Birth date with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
