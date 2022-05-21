@@ -8,4 +8,5 @@ public interface API {
     List<Employee> getAllEmployee(String cookie) throws Exception;
     Employee POSTEmployee(Employee employee, String cookie) throws Exception;
     Employee updateEmployee(Employee employee, String cookie , String id) throws Exception;
+    boolean deleteEmployee(String id , String cookie) throws Exception;
 }

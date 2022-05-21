@@ -240,6 +240,8 @@ public class MainMenu {
 					map.put(temp.getEmployeeId(),temp);
 					addRow(temp);
 					clear();
+					JOptionPane.showMessageDialog(null,"Successfully Added.","Alert",JOptionPane.WARNING_MESSAGE);
+
 				}
 			}
 
@@ -276,6 +278,8 @@ public class MainMenu {
 					update();
 
 					clear();
+					JOptionPane.showMessageDialog(null,"Successfully Updated.","Alert",JOptionPane.WARNING_MESSAGE);
+
 				}
 				
 			}
@@ -286,13 +290,25 @@ public class MainMenu {
 		buttons.add(btnDelete);
 		btnDelete.setBackground(new Color(192, 192, 192));
 		btnDelete.addActionListener(new ActionListener() {
+			@SneakyThrows
 			public void actionPerformed(ActionEvent arg0)
 			{
+
 				LOGGER.info("Inside of Delete Listener");
 
 				if (table.getSelectedRowCount() == 1) {
-					model.removeRow(table.getSelectedRow());
+					String id =(String) table.getValueAt(table.getSelectedRow(),0);
+					if (employeeAPI.deleteEmployee(id,cookie)) {
+						model.removeRow(table.getSelectedRow());
+						map.remove(id);
+						JOptionPane.showMessageDialog(null,"Successfully Deleted.","Alert",JOptionPane.WARNING_MESSAGE);
 
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Something Went Wrong Try Again Later !",
+								"ERROR", JOptionPane.ERROR_MESSAGE);
+
+					}
 				} else {
 					if (table.getRowCount() == 0) {
 						JOptionPane.showMessageDialog(null, "Table is Empty.", "Alert", JOptionPane.WARNING_MESSAGE);

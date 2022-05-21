@@ -26,7 +26,7 @@ public class EmployeeAPI implements API {
 
 
     public List<Employee> getAllEmployee(String cookie)throws Exception{
-        LOGGER.info("Inside of Get All Employee");
+        LOGGER.info("Inside of Get All Employee Call");
         HttpGet request=new HttpGet("http://localhost:8080/Employee");
         request.setHeader("Cookie","JSESSIONID="+cookie);
         CloseableHttpResponse respone=httpClient.execute(request);
@@ -43,7 +43,7 @@ public class EmployeeAPI implements API {
         return list;
     }
     public Employee POSTEmployee(Employee employee,String cookie) throws IOException {
-        LOGGER.info("Inside of Post Employee");
+        LOGGER.info("Inside of Post Employee Call");
 
         HttpPost request=new HttpPost(
                 "http://localhost:8080/Employee"
@@ -69,9 +69,9 @@ public class EmployeeAPI implements API {
 
     @Override
     public Employee updateEmployee(Employee employee, String cookie , String id) throws Exception {
-        LOGGER.info("Inside of Update Employee");
+        LOGGER.info("Inside of Update Employee Call");
 
-        String url=String.format("http://localhost:8080/Employee/");
+        String url="http://localhost:8080/Employee/";
 
 
         HttpPut req=new HttpPut(url);
@@ -98,5 +98,17 @@ public class EmployeeAPI implements API {
         Employee newEmployee=mapper.readValue(EntityUtils.toString(entity), new TypeReference<Employee>() {
         });
         return newEmployee;
+    }
+
+    @Override
+    public boolean deleteEmployee(String id, String cookie) throws Exception {
+        LOGGER.info("INSIDE OF Delete Employee Call");
+        String url="http://localhost:8080/Employee/"+id;
+
+        HttpDelete req=new HttpDelete(url);
+        req.setHeader("Cookie","JSESSIONID="+cookie);
+
+        CloseableHttpResponse response=httpClient.execute(req);
+        return response.getStatusLine().getStatusCode()==200;
     }
 }
