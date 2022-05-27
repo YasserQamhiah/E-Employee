@@ -89,6 +89,10 @@ public class MainMenu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		JButton btnClear=new JButton("Clear");
+		btnClear.setBounds(927, 11, 150, 37);
+		btnClear.setBackground(new Color(192, 192, 192));
+//		btnClose.setBounds(705, 11, 139, 37);
 
 		map=new HashMap<>();
 		employeeAPI=new EmployeeAPI();
@@ -106,7 +110,7 @@ public class MainMenu {
 
 		JPanel buttons = new JPanel();
 		buttons.setBackground(new Color(220, 220, 220));
-		buttons.setBounds(135, 562, 897, 59);
+		buttons.setBounds(0, 562, 1100, 59);
 		panel.add(buttons);
 		buttons.setLayout(null);
 
@@ -210,8 +214,11 @@ public class MainMenu {
 		scrollPane.setBounds(265, 68, 767, 466);
 		panel.add(scrollPane);
 		JButton btnAdd = new JButton("ADD");
-		btnAdd.setBounds(59, 11, 168, 37);
+		btnAdd.setBounds(59, 11, 150, 37);
+
 		buttons.add(btnAdd);
+		buttons.add(btnClear);
+		btnClear.addActionListener(e->clear());
 		btnAdd.setBackground(new Color(192, 192, 192));
 		btnAdd.addActionListener(new ActionListener() {
 
@@ -248,7 +255,7 @@ public class MainMenu {
 		});
 
 		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.setBounds(483, 11, 158, 37);
+		btnUpdate.setBounds(483, 11, 150, 37);
 		buttons.add(btnUpdate);
 		btnUpdate.setBackground(new Color(192, 192, 192));
 		btnUpdate.addActionListener(new ActionListener() {
@@ -286,7 +293,7 @@ public class MainMenu {
 		});
 
 		JButton btnDelete = new JButton("DELETE");
-		btnDelete.setBounds(267, 11, 173, 37);
+		btnDelete.setBounds(267, 11, 150, 37);
 		buttons.add(btnDelete);
 		btnDelete.setBackground(new Color(192, 192, 192));
 		btnDelete.addActionListener(new ActionListener() {
@@ -324,7 +331,7 @@ public class MainMenu {
 		});
 
 		JButton btnClose = new JButton("CLOSE");
-		btnClose.setBounds(705, 11, 139, 37);
+		btnClose.setBounds(705, 11, 150, 37);
 		buttons.add(btnClose);
 		btnClose.setBackground(new Color(192, 192, 192));
 		btnClose.addActionListener(new ActionListener() {
@@ -477,41 +484,41 @@ public class MainMenu {
 	{
 		LOGGER.info("Inside of check");
 
-		if (txtfirstName.getText().matches("[\\w]+") == false) {
+		if (!txtfirstName.getText().matches("[\\w]+")) {
 			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtLastName.getText().matches("[\\w]+") == false) {
+		else if (!txtLastName.getText().matches("[\\w]+")) {
 			JOptionPane.showMessageDialog(null, "please, write the name with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		else if (txtHireDate.getText().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$") == false) {
-			JOptionPane.showMessageDialog(null, "please, write the Address with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
+		else if (!txtHireDate.getText().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")) {
+			JOptionPane.showMessageDialog(null, "please, write the Hire Date with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtRole.getText().matches("[\\w]+") == false) {
+		else if (!txtRole.getText().matches("[\\w]+")) {
 			JOptionPane.showMessageDialog(null, "please, write the Role with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtJob.getText().matches("[\\w]+") == false) {
+		else if (!txtJob.getText().matches("[\\w]+")) {
 			JOptionPane.showMessageDialog(null, "please, write the Job with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtSalary.getText().matches("[\\d]{1,7}") == false) {
+		else if (!txtSalary.getText().matches("[\\d]{1,7}")) {
 			JOptionPane.showMessageDialog(null, "please, write the Salary with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtEmail.getText().matches("[a-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$") == false) {
+		else if (!txtEmail.getText().matches("^[a-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$")) {
 			JOptionPane.showMessageDialog(null, "please, write the Email with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		else if (txtPhone.getText().matches("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$") == false) {
+		else if (!txtPhone.getText().matches("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")) {
 			JOptionPane.showMessageDialog(null, "please, write the Phone with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (txtBD.getText().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$") == false){
+		else if (!txtBD.getText().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")){
 			JOptionPane.showMessageDialog(null, "please, write the Birth date with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}

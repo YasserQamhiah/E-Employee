@@ -89,7 +89,7 @@ public class LogIn {
 		LOGIN.getContentPane().add(passwordField);
 
 		JButton btnLogIn = new JButton("LOGIN");
-		btnLogIn.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnLogIn.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnLogIn.setBounds(323, 178, 89, 38);
 		btnLogIn.setBackground(new Color(192, 192, 192));
 		btnLogIn.addActionListener(e->{
