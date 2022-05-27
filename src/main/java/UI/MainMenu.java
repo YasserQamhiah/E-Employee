@@ -92,7 +92,6 @@ public class MainMenu {
 		JButton btnClear=new JButton("Clear");
 		btnClear.setBounds(927, 11, 150, 37);
 		btnClear.setBackground(new Color(192, 192, 192));
-//		btnClose.setBounds(705, 11, 139, 37);
 
 		map=new HashMap<>();
 		employeeAPI=new EmployeeAPI();
@@ -497,11 +496,11 @@ public class MainMenu {
 			JOptionPane.showMessageDialog(null, "please, write the Hire Date with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (!txtRole.getText().matches("[\\w]+")) {
+		else if (!txtRole.getText().matches("^[ A-Za-z]+$")) {
 			JOptionPane.showMessageDialog(null, "please, write the Role with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (!txtJob.getText().matches("[\\w]+")) {
+		else if (!txtJob.getText().matches("^[ A-Za-z]+$")) {
 			JOptionPane.showMessageDialog(null, "please, write the Job with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
