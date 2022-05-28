@@ -51,7 +51,7 @@ public class MainMenu {
 	private JTextField txtPhone;
 	private JTextField txtBD;
 	TableRowSorter<DefaultTableModel> ts;
-	@Autowired
+
 	EmployeeAPI employeeAPI;
 	HashMap<String, Employee>map;
 	String cookie;
@@ -89,8 +89,9 @@ public class MainMenu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		JButton btnClear=new JButton("Clear");
-		btnClear.setBounds(927, 11, 150, 37);
+		JButton btnClear=new JButton("CLEAR");
+		btnClear.setBounds(705, 11, 150, 37);
+
 		btnClear.setBackground(new Color(192, 192, 192));
 
 		map=new HashMap<>();
@@ -267,7 +268,8 @@ public class MainMenu {
 					JOptionPane.showMessageDialog(null, "Table is Empty.", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
-
+					if(!check())
+						return;
 					int selectedRowIndex=table.getSelectedRow();
 					Employee temp=buildEmployee();
 					String id=table.getValueAt(selectedRowIndex,0).toString();
@@ -330,19 +332,14 @@ public class MainMenu {
 		});
 
 		JButton btnClose = new JButton("CLOSE");
-		btnClose.setBounds(705, 11, 150, 37);
+		btnClose.setBounds(927, 11, 150, 37);
 		buttons.add(btnClose);
 		btnClose.setBackground(new Color(192, 192, 192));
-		btnClose.addActionListener(new ActionListener() {
-			public void close() {
-				WindowEvent closeWindow = new WindowEvent(MainMenu, WindowEvent.WINDOW_CLOSING);
-				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
-			}
-
-			public void actionPerformed(ActionEvent arg0) {
-				close();
-			}
-		});
+		btnClose.addActionListener(e-> {
+			System.exit(0);
+			MainMenu.dispose();
+			MainMenu.setVisible(false);
+			});
 
 		txtSearch.addKeyListener(new KeyAdapter() {
 
