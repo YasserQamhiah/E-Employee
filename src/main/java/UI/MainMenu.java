@@ -5,7 +5,6 @@ import com.example.EEmployee.collection.Employee;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -25,8 +24,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.BevelBorder;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -505,12 +502,12 @@ public class MainMenu {
 			JOptionPane.showMessageDialog(null, "please, write the Salary with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		else if (!txtEmail.getText().matches("^[a-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$")) {
+		else if (!txtEmail.getText().matches("^[A-za-z]+[\\w_.]*[@][a-z]+[\\w]*[.]com$")) {
 			JOptionPane.showMessageDialog(null, "please, write the Email with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		else if (!txtPhone.getText().matches("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")) {
+		else if (!txtPhone.getText().matches("[0-9]{10}")) {
 			JOptionPane.showMessageDialog(null, "please, write the Phone with a correct form", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}

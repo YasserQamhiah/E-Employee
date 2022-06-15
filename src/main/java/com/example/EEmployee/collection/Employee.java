@@ -8,10 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Data
 @Document(collection = "EmployeeCollection")

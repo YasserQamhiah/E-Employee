@@ -4,7 +4,6 @@ import com.example.EEmployee.appuser.collection.AppUser;
 import com.example.EEmployee.appuser.repository.UsersRepository;
 import com.example.EEmployee.appuser.token.ConfirmationToken;
 import com.example.EEmployee.appuser.token.ConfirmationTokenService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
